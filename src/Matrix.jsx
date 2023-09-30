@@ -1,32 +1,29 @@
-// import { useState } from "react";
+import { useState } from "react";
 
 const Matrix = () => {
 
   let arrayVelue = ["0","0","0","0","0","0","0","0","0"];
 
-  // const [textX, setTextX] = useState('');
+  const [textX, setTextX] = useState(arrayVelue);
+  const [xPlay, setXPlay] = useState(true);
 
   const handlerX = (index) =>{
+    const updateText = [...textX];
+    updateText[index] = (xPlay === true ? 'X' : 'O');
     console.log(index);
 
-    arrayVelue[index] = 'X';
-    console.log(arrayVelue);
-
-}
+    setTextX(updateText);
+    console.log(updateText);
+    setXPlay(!xPlay);
+  }
 
   return (
-
-    <>
-    
-    {arrayVelue.map((item,index) => {
+    <div className="matrix">
+    {textX.map((item, index) => {
       return (
         <button key={index} onClick = {() => handlerX(index)}>{item}</button>)})
-      }
-
-      {/* <button onClick = {handlerX}>{textX}</button> */}
-      
-    
-    </>
+      }      
+    </div>
   )
 }
 
