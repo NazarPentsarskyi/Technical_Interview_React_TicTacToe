@@ -2,30 +2,30 @@ import { useState, useEffect, useCallback } from "react";
 
 const Matrix = () => {
 
-  const [textX, setTextX] = useState(Array(9).fill(null));
-  const [xPlay, setXPlay] = useState(true);
+  const [square, setSquare] = useState(Array(9).fill(null));
+  const [xPlaying, setXPlaying] = useState(true);
   const [disableButtons, setDisableButtons] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [winner, setWinner] = useState(null);
 
-  const handlerX = (index) =>{
-    if (disableButtons || textX[index] !== null) return;
+  const handleSquareClick = (index) =>{
+    if (disableButtons || square[index] !== null) return;
 
-    const updatedText = [...textX];
-    updatedText[index] = 'X';
+    const updatedBoard = [...square];
+    updatedBoard[index] = 'X';
 
-    setTextX(updatedText);
-    setXPlay(!xPlay);
+    setSquare(updatedBoard);
+    setXPlaying(!xPlaying);
     setDisableButtons(true);
 
     setTimeout(() => {
-      if (updatedText[index] !== 'X') return;
-      const randomIndex = getRandomEmptyIndex(updatedText);
+      if (updatedBoard[index] !== 'X') return;
+      const randomIndexBoard = getRandomEmptyIndex(updatedBoard);
 
-      if (randomIndex !== -1) {
-        const updatedTextWithO = [...updatedText];
-        updatedTextWithO[randomIndex] = 'O';
-        setTextX(updatedTextWithO);
+      if (randomIndexBoard !== -1) {
+        const updatedBoardWithO = [...updatedBoard];
+        updatedBoardWithO[randomIndexBoard] = 'O';
+        setSquare(updatedBoardWithO);
         setDisableButtons(false);
       }
     }, 500);
@@ -47,24 +47,24 @@ const Matrix = () => {
     for (let i = 0; i < WIN_CONDITIONS.length; i++) {
       const [x, y, z] = WIN_CONDITIONS[i];
   
-      if (textX[x] && textX[x] === textX[y] && textX[y] === textX[z]) {
+      if (square[x] && square[x] === square[y] && square[y] === square[z]) {
         setGameOver(true);
-        setWinner(textX[x]);
+        setWinner(square[x]);
         return;
       }
     }
   
-    if (!textX.includes(null)) {
+    if (!square.includes(null)) {
       setGameOver(true);
       setWinner("Tie");
     }
-  }, [textX]);
+  }, [square]);
 
   useEffect(() => {
     if (!gameOver) {
       checkWinner();
     }
-  }, [textX, gameOver, checkWinner]);
+  }, [square, gameOver, checkWinner]);
 
   const getRandomEmptyIndex = (arr) => {
     const emptyIndices = arr.reduce((indices, val, index) => {
@@ -73,13 +73,13 @@ const Matrix = () => {
     }, []);
 
     if (emptyIndices.length === 0) return -1;
-    const randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-    return randomIndex;
+    const randomIndexBoard = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+    return randomIndexBoard;
   }
   
   const resetBoard = () => {
-    setTextX(Array(9).fill(null));
-    setXPlay(true);
+    setSquare(Array(9).fill(null));
+    setXPlaying(true);
     setDisableButtons(false);
     setGameOver(false);
     setWinner(null);
@@ -89,11 +89,11 @@ const Matrix = () => {
     <>
       <h1>Tic Tac Toe</h1>
       <div className="matrix">
-        {textX.map((item, index) => (
+        {square.map((item, index) => (
             <button
               className="matrix-item"
               key={index}
-              onClick = {gameOver ? resetBoard : () => handlerX(index)}>
+              onClick = {gameOver ? resetBoard : () => handleSquareClick(index)}>
                 {item}
               </button>
           ))
