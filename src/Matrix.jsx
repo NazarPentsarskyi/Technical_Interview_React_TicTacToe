@@ -1,17 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const Matrix = () => {
-
-  const WIN_CONDITIONS = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-  ]
 
   const [textX, setTextX] = useState(Array(9).fill(null));
   const [xPlay, setXPlay] = useState(true);
@@ -21,6 +10,7 @@ const Matrix = () => {
 
   const handlerX = (index) =>{
     if (disableButtons || textX[index] !== null) return;
+
     const updatedText = [...textX];
     updatedText[index] = 'X';
 
@@ -39,30 +29,42 @@ const Matrix = () => {
         setDisableButtons(false);
       }
     }, 500);
-  }
+  };
    
-  const checkWinner = (textX) => {
+  const checkWinner = useCallback(() => {
+
+    const WIN_CONDITIONS = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+
     for (let i = 0; i < WIN_CONDITIONS.length; i++) {
       const [x, y, z] = WIN_CONDITIONS[i];
-
+  
       if (textX[x] && textX[x] === textX[y] && textX[y] === textX[z]) {
         setGameOver(true);
         setWinner(textX[x]);
         return;
       }
     }
-
+  
     if (!textX.includes(null)) {
       setGameOver(true);
       setWinner("Tie");
     }
-  }
+  }, [textX]);
 
   useEffect(() => {
     if (!gameOver) {
-      checkWinner(textX);
+      checkWinner();
     }
-  }, [textX, gameOver]);
+  }, [textX, gameOver, checkWinner]);
 
   const getRandomEmptyIndex = (arr) => {
     const emptyIndices = arr.reduce((indices, val, index) => {
@@ -76,24 +78,33 @@ const Matrix = () => {
   }
   
   const resetBoard = () => {
-    setGameOver(false);
     setTextX(Array(9).fill(null));
+    setXPlay(true);
+    setDisableButtons(false);
+    setGameOver(false);
     setWinner(null);
-  }
+  };
 
   return (
     <>
+      <h1>Tic Tac Toe</h1>
       <div className="matrix">
-        {textX.map((item, index) => {
-          return (
-            <button key={index} onClick = {gameOver ? resetBoard : () => handlerX(index)}>{item}</button>
-          )})
+        {textX.map((item, index) => (
+            <button
+              className="matrix-item"
+              key={index}
+              onClick = {gameOver ? resetBoard : () => handlerX(index)}>
+                {item}
+              </button>
+          ))
         }      
       </div>
-      <button className="reset" onClick={() => resetBoard()}>Reset Board</button>
-      <h1>{winner}</h1>
+      <button className="reset" onClick={() => resetBoard()}>
+        Reset Board
+      </button>
+      <h2>Winner is : {winner}</h2>
     </>
-  )
-}
+  );
+};
 
 export default Matrix

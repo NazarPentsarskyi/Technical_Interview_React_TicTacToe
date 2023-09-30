@@ -11,6 +11,11 @@
   gap: 1.5em;
 }
 
+.matrix-item {
+  font-size: 1em;
+}
+
 .reset {
+  width: 100%;
   margin-top: 1.5em;
 }
