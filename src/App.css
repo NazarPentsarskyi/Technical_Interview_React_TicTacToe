@@ -7,5 +7,10 @@
 
 .matrix {
   display: grid;
-  grid-template-columns: repeat(3, 50px);
+  grid-template-columns: repeat(3, 5em);
+  gap: 1.5em;
+}
+
+.reset {
+  margin-top: 1.5em;
 }
