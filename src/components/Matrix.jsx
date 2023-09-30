@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
+import Board from "./Board";
+import Status from "./Status";
 
 const Matrix = () => {
 
@@ -77,7 +79,7 @@ const Matrix = () => {
     return randomIndexBoard;
   }
   
-  const resetBoard = () => {
+  const handleResetBoard = () => {
     setSquare(Array(9).fill(null));
     setXPlaying(true);
     setDisableButtons(false);
@@ -87,24 +89,15 @@ const Matrix = () => {
 
   return (
     <>
-      <h1>Tic Tac Toe</h1>
-      <div className="matrix">
-        {square.map((item, index) => (
-            <button
-              className="matrix-item"
-              key={index}
-              onClick = {gameOver ? resetBoard : () => handleSquareClick(index)}>
-                {item}
-              </button>
-          ))
-        }      
-      </div>
-      <button className="reset" onClick={() => resetBoard()}>
-        Reset Board
-      </button>
-      <h2>Winner is : {winner}</h2>
+      <Board
+        square={square}
+        gameOver={gameOver}
+        handleResetBoard={handleResetBoard}
+        handleSquareClick={handleSquareClick}
+      />
+      <Status onReset={handleResetBoard} winner={winner}/>
     </>
   );
 };
 
-export default Matrix
+export default Matrix;
