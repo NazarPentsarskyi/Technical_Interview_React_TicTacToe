@@ -1,16 +1,26 @@
 import { useState, useEffect, useCallback } from 'react';
-import tictactoe from '../../public/tictactoe_white.svg';
+import tictactoeWhite from '../../public/tictactoe_white.svg';
+import tictactoeBlue from '../../public/tictactoe_blue.svg';
 import Board from './Board';
 import Status from './Status';
 
 const Matrix = () => {
-
+  
+  const [isHoveredLogo, setIsHoveredLogo] = useState(false);
   const [square, setSquare] = useState(Array(9).fill(null));
   const [xPlaying, setXPlaying] = useState(true);
   const [disableButtons, setDisableButtons] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [winner, setWinner] = useState(null);
   const [strikeClass, setStrikeClass] = useState();
+
+  const handleMouseEnter = () => {
+    setIsHoveredLogo(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHoveredLogo(false);
+  };
 
   const handleSquareClick = (index) =>{
     if (disableButtons || square[index] !== null) return;
@@ -110,11 +120,14 @@ const Matrix = () => {
     <>
     <div className='header'>
       <h1>Tic Tac Toe</h1>
-      <img className='logo'
-        src={tictactoe}
-        alt='logo tic tac toe game'
-        onClick={handleResetBoard}
-      />
+      <img
+          className='logo'
+          src={isHoveredLogo ? tictactoeBlue : tictactoeWhite}
+          alt='logo tic tac toe game'
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onClick={handleResetBoard}
+        />
     </div>
     <div className='main'>
       <Board
