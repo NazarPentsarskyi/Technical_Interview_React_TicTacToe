@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
-import Board from "./Board";
-import Status from "./Status";
+import { useState, useEffect, useCallback } from 'react';
+import Board from './Board';
+import Status from './Status';
 
 const Matrix = () => {
 
@@ -9,6 +9,7 @@ const Matrix = () => {
   const [disableButtons, setDisableButtons] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [winner, setWinner] = useState(null);
+  const [strikeClass, setStrikeClass] = useState();
 
   const handleSquareClick = (index) =>{
     if (disableButtons || square[index] !== null) return;
@@ -35,30 +36,46 @@ const Matrix = () => {
    
   const checkWinner = useCallback(() => {
 
-    const WIN_CONDITIONS = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6]
+    const winningCombinations = [
+      //Rows
+      { combo: [0, 1, 2], strikeClass: 'strike-row-1' },
+      { combo: [3, 4, 5], strikeClass: 'strike-row-2' },
+      { combo: [6, 7, 8], strikeClass: 'strike-row-3' },
+    
+      //Columns
+      { combo: [0, 3, 6], strikeClass: 'strike-column-1' },
+      { combo: [1, 4, 7], strikeClass: 'strike-column-2' },
+      { combo: [2, 5, 8], strikeClass: 'strike-column-3' },
+    
+      //Diagonals
+      { combo: [0, 4, 8], strikeClass: 'strike-diagonal-1' },
+      { combo: [2, 4, 6], strikeClass: 'strike-diagonal-2' },
     ];
 
-    for (let i = 0; i < WIN_CONDITIONS.length; i++) {
-      const [x, y, z] = WIN_CONDITIONS[i];
+    for (const { combo, strikeClass } of winningCombinations) {
+      const squareValue1 = square[combo[0]];
+      const squareValue2 = square[combo[1]];
+      const squareValue3 = square[combo[2]];
   
-      if (square[x] && square[x] === square[y] && square[y] === square[z]) {
+      if (
+        squareValue1 !== null &&
+        squareValue1 === squareValue2 &&
+        squareValue1 === squareValue3
+      ) {
+        setStrikeClass(strikeClass);
         setGameOver(true);
-        setWinner(square[x]);
+        if (squareValue1 === 'X') {
+        setWinner('X');
+        } else {
+          setWinner('O');
+        }
         return;
       }
     }
   
     if (!square.includes(null)) {
       setGameOver(true);
-      setWinner("Tie");
+      setWinner('Tie');
     }
   }, [square]);
 
@@ -85,17 +102,21 @@ const Matrix = () => {
     setDisableButtons(false);
     setGameOver(false);
     setWinner(null);
+    setStrikeClass(null);
   };
 
   return (
     <>
+    <div className='main'>
       <Board
         square={square}
         gameOver={gameOver}
         handleResetBoard={handleResetBoard}
         handleSquareClick={handleSquareClick}
+        strikeClass={strikeClass}
       />
       <Status onReset={handleResetBoard} winner={winner}/>
+      </div>
     </>
   );
 };

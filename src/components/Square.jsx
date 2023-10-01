@@ -4,7 +4,7 @@ const Square = ({ index, item, handleResetBoard, gameOver, handleSquareClick}) =
   return (
     <>
       <button
-        className="matrix-item"
+        className='square'
         onClick = {gameOver ? handleResetBoard : () => handleSquareClick(index)}
       >
         {item}

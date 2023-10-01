@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import Square from './Square';
+import Strike from './Strike';
 
-const Board = ({ square, handleResetBoard, gameOver, handleSquareClick}) => {
+const Board = ({ square, handleResetBoard, gameOver, handleSquareClick, strikeClass}) => {
   return (
     <>
-      <div className="matrix">
+      <div className='board'>
         {square.map((item, index) => (
           <Square
             key={index}
@@ -15,7 +16,8 @@ const Board = ({ square, handleResetBoard, gameOver, handleSquareClick}) => {
             handleSquareClick={handleSquareClick} 
           />
           ))
-        }     
+        }
+        <Strike strikeClass={strikeClass} />
       </div>
     </>
   )
@@ -26,6 +28,7 @@ Board.propTypes = {
   handleResetBoard: PropTypes.func.isRequired,
   gameOver: PropTypes.bool,
   handleSquareClick: PropTypes.func.isRequired,
+  strikeClass: PropTypes.func.isRequired
 };
 
 export default Board;

@@ -7,7 +7,7 @@ function App() {
     <>
     <div className='header'>
       <h1>Tic Tac Toe</h1>
-      <img className='logo' src={tictactoe} alt='logo tic tac toe' />
+      <img className='logo' src={tictactoe} alt='logo tic tac toe game' />
     </div>
       <Matrix />
     </>
