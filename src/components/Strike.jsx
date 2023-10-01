@@ -7,7 +7,7 @@ const Strike = ({ strikeClass }) => {
 };
 
 Strike.propTypes = {
-  strikeClass: PropTypes.func.isRequired
+  strikeClass: PropTypes.string
 };
 
 export default Strike;

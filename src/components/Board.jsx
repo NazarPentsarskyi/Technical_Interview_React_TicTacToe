@@ -28,7 +28,7 @@ Board.propTypes = {
   handleResetBoard: PropTypes.func.isRequired,
   gameOver: PropTypes.bool,
   handleSquareClick: PropTypes.func.isRequired,
-  strikeClass: PropTypes.func.isRequired
+  strikeClass: PropTypes.string
 };
 
 export default Board;

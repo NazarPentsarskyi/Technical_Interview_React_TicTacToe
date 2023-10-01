@@ -63,15 +63,22 @@ button:hover {
   gap: 2em;
 }
 
+.logo {
+  width: 5em;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logo:hover {
+  border-color: var(--main-color);
+}
+
 .main {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.logo {
-  width: 5em;
 }
 
 .board {

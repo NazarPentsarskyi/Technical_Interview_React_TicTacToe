@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import tictactoe from '../../public/tictactoe_white.svg';
 import Board from './Board';
 import Status from './Status';
 
@@ -107,6 +108,14 @@ const Matrix = () => {
 
   return (
     <>
+    <div className='header'>
+      <h1>Tic Tac Toe</h1>
+      <img className='logo'
+        src={tictactoe}
+        alt='logo tic tac toe game'
+        onClick={handleResetBoard}
+      />
+    </div>
     <div className='main'>
       <Board
         square={square}
